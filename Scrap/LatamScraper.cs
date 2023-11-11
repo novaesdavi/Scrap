@@ -3,6 +3,9 @@ using WebScraping.Model;
 using EasyAutomationFramework;
 using OpenQA.Selenium;
 using EasyAutomationFramework.Model;
+using OpenQA.Selenium.Chrome;
+using OpenQA.Selenium.Support.UI;
+using static sun.awt.image.ImageWatched;
 
 namespace WebScraping
 {
@@ -12,8 +15,21 @@ namespace WebScraping
         {
         }
 
+        private void StartBrowser()
+        {
+            IWebDriver driver = new ChromeDriver();
+            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+            driver.Url = link;
+
+            driver.Manage().Window.Maximize();
+
+            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);
+            Task.Delay(5000).Wait();
+
+        }
         public void BuildData(string link)
         {
+
             StartBrowser(TypeDriver.GoogleChorme);
 
             var items = new List<Item>();
@@ -22,7 +38,9 @@ namespace WebScraping
             ConfigurarOrigem();
             ConfigurarDestino();
 
-            SelecionarDataIda("11");
+            string dia = "11";
+            string mesAno = "Novembro 2023";
+            ConfigurarData(dia, mesAno);
 
             Task.Delay(2000).Wait();
 
@@ -40,15 +58,33 @@ namespace WebScraping
 
         }
 
+        private void ConfigurarData(string dia, string mesAno)
+        {
+            Task.Delay(2000).Wait();
+            var dataIda = GetValue(TypeElement.Xpath, "/html/body/main/div/div[2]/div/div/div/div/div[2]").element.FindElement(By.Id("departure"));
+            Task.Delay(2000).Wait();
+            dataIda.Click();
+            Task.Delay(2000).Wait();
+
+            var mesTabelaEscolha = GetValue(TypeElement.Xpath, $"/html/body/div/div[2]/div[1]/table/thead/tr[1]/th[2]").Value;
+            var mesContrado = false;
+            while (mesContrado == false)
+            {
+                if (mesTabelaEscolha == mesAno)
+                {
+                    mesContrado = true;
+                    SelecionarDataIda(dia);
+                }
+                else
+                    GetValue(TypeElement.Xpath, $"/html/body/div/div[3]/div[1]/table/thead/tr[1]/th[3]").element.Click();
+            } 
+        }
+
         private void SelecionarDataIda(string diaPesquisa)
         {
-            var dataIda = GetValue(TypeElement.Xpath, "/html/body/main/div/div[2]/div/div/div/div/div[2]").element.FindElement(By.Id("departure"));
-            dataIda.Click();
-
-            Task.Delay(2000).Wait();
             var diaEncontrado = false;
             for (int linha = 1; linha < 6; linha++)
-            {                
+            {
                 if (diaEncontrado) break;
                 for (int coluna = 1; coluna < 8; coluna++)
                 {
@@ -59,9 +95,9 @@ namespace WebScraping
                         GetValue(TypeElement.Xpath, $"/html/body/div[1]/div[2]/div[1]/table/tbody/tr[{linha}]/td[{coluna}]").element.Click();
                         diaEncontrado = true;
                         break;
-                    }                    
+                    }
                 }
-                
+
             }
         }
 
