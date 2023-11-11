@@ -3,16 +3,10 @@ using EasyAutomationFramework;
 using EasyAutomationFramework.Model;
 using WebScraping;
 
-var web = new WebScraper();
+//var web = new WebScraper();
 
-var tablets = web.GetData("https://webscraper.io/test-sites/e-commerce/allinone/computers/tablets");
+//web.BuildData("https://webscraper.io/test-sites/e-commerce/allinone/computers/tablets");
 
-var dados = new List<DataTables>()
-    {
-        new DataTables("tablets", tablets)
-    };
-
-var paramss = new ParamsDataTable("Dados", @"C:\Users\dnova\source\repos\WebScraping\WebScraping", dados);
-
-Base.GenerateExcel(paramss);
+var latam = new LatamScraper();
+latam.BuildData("https://latampass.latam.com/pt_br/passagens");
 
