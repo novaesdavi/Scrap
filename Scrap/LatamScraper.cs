@@ -33,11 +33,13 @@ namespace WebScraping
             InitBrowser(link);
             Task.Delay(5000).Wait();
             
+            Console.WriteLine("Pesquisa Iniciada");
+
             pesquisa.ConfigurarSomenteIda();
             pesquisa.ConfigurarOrigem();
             pesquisa.ConfigurarDestino();
 
-            string dia = "11";
+            string dia = "15";
             string mesAno = "Novembro 2023";
             pesquisa.ConfigurarData(dia, mesAno);
 
@@ -46,6 +48,7 @@ namespace WebScraping
             GetValue(TypeElement.Xpath, "/html/body/main/div/div[2]/div/div/div/div/div[2]").element
                 .FindElement(By.ClassName("btn-latam"))
                 .Click();
+            Console.WriteLine("Pesquisa Concluída");
             return true;
         }
 
@@ -66,8 +69,10 @@ namespace WebScraping
 
         public void MontarPesquisa()
         {
-            var teste = new ResultadoPesquisaLatam();
-            teste.MontarLista();
+            //var teste = new ResultadoPesquisaLatam();
+            //teste.MontarLista();
+
+            resultadoPesquisa.MontarLista();
         }
     }
 }

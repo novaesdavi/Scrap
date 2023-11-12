@@ -66,7 +66,7 @@ namespace WebScraping
             ReadOnlyCollection<IWebElement> elements;
             Task.Delay(5000).Wait();
             var items = new List<DadosDeVoo>();
-            Console.WriteLine("Iniciando Scrapping");
+            Console.WriteLine("Iniciando Scrapping em Resultados");
             for (int lista = 1; lista < 6; lista++)
             {
                 try
@@ -79,11 +79,16 @@ namespace WebScraping
 
                     //}
 
+                    item.Data =           GetValue(TypeElement.Xpath, $"/html/body/div[1]/div[1]/main/div/div/div/div/div[4]/div/ol/div/div/li[3]/button/span").element.Text;
                     item.HorarioPartida =           GetValue(TypeElement.Xpath, $"/html/body/div[1]/div[1]/main/div/div/div/div/ol/li[{lista}]/div/div/div[1]/div[2]/div[1]/div[1]/span[1]").element.Text;
                     item.AeroportoPartida =         GetValue(TypeElement.Xpath, $"/html/body/div[1]/div[1]/main/div/div/div/div/ol/li[{lista}]/div/div/div[1]/div[2]/div[1]/div[1]/span[2]").element.Text;
                     item.HorarioChegadaDestino =    GetValue(TypeElement.Xpath, $"/html/body/div[1]/div[1]/main/div/div/div/div/ol/li[{lista}]/div/div/div[1]/div[2]/div[1]/div[3]/span[1]").element.Text;
                     item.AeroportoDestino =         GetValue(TypeElement.Xpath, $"/html/body/div[1]/div[1]/main/div/div/div/div/ol/li[{lista}]/div/div/div[1]/div[2]/div[1]/div[3]/span[2]").element.Text;
                     item.Duracao =                  GetValue(TypeElement.Xpath, $"/html/body/div[1]/div[1]/main/div/div/div/div/ol/li[{lista}]/div/div/div[1]/div[2]/div[1]/div[2]/span[2]").element.Text;
+                    item.TipoTrajeto =              GetValue(TypeElement.Xpath, $"/html/body/div[1]/div[1]/main/div/div/div/div/ol/li[{lista}]/div/div/div[2]/div[1]/a/span").element.Text;                                                                                 
+                    item.Preco =                    GetValue(TypeElement.Xpath, $"/html/body/div[1]/div[1]/main/div/div/div/div/ol/li[{lista}]/div/div/div[2]/div[2]/div/div/div/span[1]/span[1]").element.Text;
+                    item.Moeda =                    GetValue(TypeElement.Xpath, $"/html/body/div[1]/div[1]/main/div/div/div/div/ol/li[{lista}]/div/div/div[2]/div[2]/div/div/div/span[1]/span[2]").element.Text;
+
 
                     items.Add(item);
                 }
