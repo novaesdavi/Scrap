@@ -9,13 +9,13 @@ using WebScraping;
 
 var latam = new LatamScraper();
 
-//latam.MontarPesquisa();
+latam.MontarPesquisa();
 
-var pesquisou = latam.MontarPesquisa("https://latampass.latam.com/pt_br/passagens");
-if (pesquisou)
-    latam.MontarPesquisa();
-else
-    Console.WriteLine("Pesquisa não finalizada com sucesso");
+//var pesquisou = latam.MontarPesquisa("https://latampass.latam.com/pt_br/passagens");
+//if (pesquisou)
+//    latam.MontarPesquisa();
+//else
+//    Console.WriteLine("Pesquisa não finalizada com sucesso");
 
 
 Console.WriteLine("Concluído");
