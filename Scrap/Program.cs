@@ -8,5 +8,14 @@ using WebScraping;
 //web.BuildData("https://webscraper.io/test-sites/e-commerce/allinone/computers/tablets");
 
 var latam = new LatamScraper();
-latam.BuildData("https://latampass.latam.com/pt_br/passagens");
 
+latam.MontarPesquisa();
+
+//var pesquisou = latam.MontarPesquisa("https://latampass.latam.com/pt_br/passagens");
+//if (pesquisou)
+//    latam.MontarPesquisa();
+//else
+//    Console.WriteLine("Pesquisa não finalizada com sucesso");
+
+
+Console.WriteLine("Concluído");
