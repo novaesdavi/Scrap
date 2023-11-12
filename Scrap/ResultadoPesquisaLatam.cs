@@ -40,7 +40,7 @@ namespace WebScraping
         {
             
             var items = new List<DadosDeVoo>();
-            for (int i = 0; i < 4; i++)
+            for (int i = 0; i <= 11; i++)
             {
                 try
                 {

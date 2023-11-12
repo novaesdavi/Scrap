@@ -30,17 +30,19 @@ namespace WebScraping
 
         public bool MontarPesquisa(string link)
         {
+            string dia = "15";
+            string mesAno = "Novembro 2023";
+            string origem = "SAO";
+            string destino = "Natal";
+
             InitBrowser(link);
             Task.Delay(5000).Wait();
             
             Console.WriteLine("Pesquisa Iniciada");
 
             pesquisa.ConfigurarSomenteIda();
-            pesquisa.ConfigurarOrigem();
-            pesquisa.ConfigurarDestino();
-
-            string dia = "15";
-            string mesAno = "Novembro 2023";
+            pesquisa.ConfigurarOrigem(origem);
+            pesquisa.ConfigurarDestino(destino);
             pesquisa.ConfigurarData(dia, mesAno);
 
             Task.Delay(2000).Wait();
@@ -50,21 +52,6 @@ namespace WebScraping
                 .Click();
             Console.WriteLine("Pesquisa Concluída");
             return true;
-        }
-
-
-        private void SalvarDados(IEnumerable<Item> items)
-        {
-
-            var dados = new List<DataTables>()
-                    {
-                        new DataTables("tablets", Base.ConvertTo(items.ToList()))
-                    };
-
-            var paramss = new ParamsDataTable("Dados", @"C:\Users\dnova\source\repos\WebScraping\WebScraping", dados);
-
-            Base.GenerateExcel(paramss);
-
         }
 
         public void MontarListagem()

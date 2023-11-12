@@ -75,12 +75,12 @@ namespace WebScraping
             }
         }
 
-        public void ConfigurarOrigem()
+        public void ConfigurarOrigem(string origem)
         {
             var aeroportoOrigem = GetValue(TypeElement.Xpath, "/html/body/main/div/div[2]/div/div/div/div/div[2]").element
                                         .FindElement(By.Id("irportorigemtext"));
             aeroportoOrigem.Click();
-            aeroportoOrigem.SendKeys("SAO");
+            aeroportoOrigem.SendKeys(origem);
 
             Task.Delay(5000).Wait();
             var aeroportoOrigemLista = GetValue(TypeElement.Xpath, "/html/body/main/div/div[2]/div/div/div/div/div[2]/div[3]/div[1]/div/div[2]/div/div[1]").element;
@@ -88,12 +88,12 @@ namespace WebScraping
             aeroportoOrigemLista.Click();
         }
 
-        public void ConfigurarDestino()
+        public void ConfigurarDestino(string destino)
         {
             var aeroportoOrigem = GetValue(TypeElement.Xpath, "/html/body/main/div/div[2]/div/div/div/div/div[2]").element
                                         .FindElement(By.Id("irportdestinationtext"));
             aeroportoOrigem.Click();
-            aeroportoOrigem.SendKeys("Natal");
+            aeroportoOrigem.SendKeys(destino);
 
             Task.Delay(2000).Wait();
             var aeroportoOrigemLista = GetValue(TypeElement.Xpath, "/html/body/main/div/div[2]/div/div/div/div/div[2]/div[3]/div[2]/div/div[2]/div/div[1]").element;
