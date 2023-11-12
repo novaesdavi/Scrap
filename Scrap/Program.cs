@@ -13,7 +13,7 @@ var latam = new LatamScraper();
 
 var pesquisou = latam.MontarPesquisa("https://latampass.latam.com/pt_br/passagens");
 if (pesquisou)
-    latam.MontarPesquisa();
+    latam.MontarListagem();
 else
     Console.WriteLine("Pesquisa não finalizada com sucesso");
 

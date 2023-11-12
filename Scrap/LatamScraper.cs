@@ -67,7 +67,7 @@ namespace WebScraping
 
         }
 
-        public void MontarPesquisa()
+        public void MontarListagem()
         {
             //var teste = new ResultadoPesquisaLatam();
             //teste.MontarLista();
