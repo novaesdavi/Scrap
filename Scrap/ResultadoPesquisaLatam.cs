@@ -38,27 +38,47 @@ namespace WebScraping
         }
         public void MontarLista()
         {
+            
             var items = new List<DadosDeVoo>();
+            for (int i = 0; i < 4; i++)
+            {
+                try
+                {
+                    driver.SwitchTo().Window(driver.WindowHandles[0]);
+                    OrganizarLista();
+                    items.AddRange(ObterListaDadosVoo());
+                }
+                catch (Exception)
+                {
+                    driver.SwitchTo().Window(driver.WindowHandles[1]);
+                    OrganizarLista();
+                    items.AddRange(ObterListaDadosVoo());
+                }
 
-            try
-            {
-                driver.SwitchTo().Window(driver.WindowHandles[0]);
-                items = ObterListaDadosVoo();
-            }
-            catch (Exception)
-            {
-                driver.SwitchTo().Window(driver.WindowHandles[1]);
-                items = ObterListaDadosVoo();
+                ProximaData();
+
+                Task.Delay(5000).Wait();
             }
 
             SalvarDados(items);
+        }
 
+        private void OrganizarLista()
+        {
+            var ListaOrganizacao = GetValue(TypeElement.Xpath, $"/html/body/div[1]/div[1]/main/div/div/div/div/div[3]/div/div/button").element;
+            ListaOrganizacao.Click();
+
+            var ItemListaOrganizacao = GetValue(TypeElement.Xpath, $"/html/body/div[1]/div[1]/main/div/div/div/div/div[3]/div/div/div/div[1]/menu/li[2]").element;
+            ItemListaOrganizacao.Click();
             Task.Delay(2000).Wait();
-            //var texto = horario.Text;
-            Task.Delay(2000).Wait();
+        }
 
+        private void ProximaData()
+        {
+            var proxData = GetValue(TypeElement.Xpath, $"/html/body/div[1]/div[1]/main/div/div/div/div/div[4]/div/ol/div/div/li[4]").element;
 
-
+            if (proxData != null)
+                proxData.Click();
         }
 
         private List<DadosDeVoo> ObterListaDadosVoo()
@@ -85,12 +105,12 @@ namespace WebScraping
                     item.Preco = teste2[0].Text;
                     item.Moeda = teste2[1].Text;
                     item.Data = GetValue(TypeElement.Xpath, $"/html/body/div[1]/div[1]/main/div/div/div/div/div[4]/div/ol/div/div/li[3]/button/span").element.Text;
-                    item.HorarioPartida =           GetValue(TypeElement.Xpath, $"/html/body/div[1]/div[1]/main/div/div/div/div/ol/li[{lista}]/div/div/div[1]/div[2]/div[1]/div[1]/span[1]").element.Text;
-                    item.AeroportoPartida =         GetValue(TypeElement.Xpath, $"/html/body/div[1]/div[1]/main/div/div/div/div/ol/li[{lista}]/div/div/div[1]/div[2]/div[1]/div[1]/span[2]").element.Text;
-                    item.HorarioChegadaDestino =    GetValue(TypeElement.Xpath, $"/html/body/div[1]/div[1]/main/div/div/div/div/ol/li[{lista}]/div/div/div[1]/div[2]/div[1]/div[3]/span[1]").element.Text;
-                    item.AeroportoDestino =         GetValue(TypeElement.Xpath, $"/html/body/div[1]/div[1]/main/div/div/div/div/ol/li[{lista}]/div/div/div[1]/div[2]/div[1]/div[3]/span[2]").element.Text;
-                    item.Duracao =                  GetValue(TypeElement.Xpath, $"/html/body/div[1]/div[1]/main/div/div/div/div/ol/li[{lista}]/div/div/div[1]/div[2]/div[1]/div[2]/span[2]").element.Text;
-                    item.TipoTrajeto =              GetValue(TypeElement.Xpath, $"/html/body/div[1]/div[1]/main/div/div/div/div/ol/li[{lista}]/div/div/div[2]/div[1]/a/span").element.Text;
+                    item.HorarioPartida = GetValue(TypeElement.Xpath, $"/html/body/div[1]/div[1]/main/div/div/div/div/ol/li[{lista}]/div/div/div[1]/div[2]/div[1]/div[1]/span[1]").element.Text;
+                    item.AeroportoPartida = GetValue(TypeElement.Xpath, $"/html/body/div[1]/div[1]/main/div/div/div/div/ol/li[{lista}]/div/div/div[1]/div[2]/div[1]/div[1]/span[2]").element.Text;
+                    item.HorarioChegadaDestino = GetValue(TypeElement.Xpath, $"/html/body/div[1]/div[1]/main/div/div/div/div/ol/li[{lista}]/div/div/div[1]/div[2]/div[1]/div[3]/span[1]").element.Text;
+                    item.AeroportoDestino = GetValue(TypeElement.Xpath, $"/html/body/div[1]/div[1]/main/div/div/div/div/ol/li[{lista}]/div/div/div[1]/div[2]/div[1]/div[3]/span[2]").element.Text;
+                    item.Duracao = GetValue(TypeElement.Xpath, $"/html/body/div[1]/div[1]/main/div/div/div/div/ol/li[{lista}]/div/div/div[1]/div[2]/div[1]/div[2]/span[2]").element.Text;
+                    item.TipoTrajeto = GetValue(TypeElement.Xpath, $"/html/body/div[1]/div[1]/main/div/div/div/div/ol/li[{lista}]/div/div/div[2]/div[1]/a/span").element.Text;
 
 
 
@@ -103,10 +123,10 @@ namespace WebScraping
                         continue;
                     else
                         throw;
-                
+
                 }
 
-                
+
             }
 
             return items;

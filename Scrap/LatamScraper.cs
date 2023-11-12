@@ -69,10 +69,10 @@ namespace WebScraping
 
         public void MontarPesquisa()
         {
-            var teste = new ResultadoPesquisaLatam();
-            teste.MontarLista();
+            //var teste = new ResultadoPesquisaLatam();
+            //teste.MontarLista();
 
-            //resultadoPesquisa.MontarLista();
+            resultadoPesquisa.MontarLista();
         }
     }
 }

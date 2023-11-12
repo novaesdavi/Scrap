@@ -17,7 +17,6 @@ namespace WebScraping
         {            
             const string somenteIda = "OW";
             var campoIdaVolta = GetValue(TypeElement.Xpath, "/html/body/main/div/div[2]/div/div/div/div/div[2]/div[1]/div[1]/div/div[1]").element;
-            Task.Delay(2000).Wait();
             campoIdaVolta.Click();
             Task.Delay(2000).Wait();
             var listaIdaVolta = GetValue(TypeElement.Xpath, "/html/body/main/div/div[2]/div/div/div/div/div[2]/div[1]/div[1]/div/div[2]/div/div[1]/span").element;
