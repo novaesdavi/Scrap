@@ -14,7 +14,7 @@ namespace WebScraping
             driver = _driver;
         }
         public void ConfigurarSomenteIda()
-        {            
+        {
             const string somenteIda = "OW";
             var campoIdaVolta = GetValue(TypeElement.Xpath, "/html/body/main/div/div[2]/div/div/div/div/div[2]/div[1]/div[1]/div/div[1]").element;
             campoIdaVolta.Click();
@@ -41,17 +41,25 @@ namespace WebScraping
 
         public void SelecionarCalendario(string dia, string mesAno)
         {
-            var mesTabelaEscolha = GetValue(TypeElement.Xpath, $"/html/body/div/div[2]/div[1]/table/thead/tr[1]/th[2]").Value;
+            
             var mesContrado = false;
             while (mesContrado == false)
             {
+                var mesTabelaEscolha = GetValue(TypeElement.Xpath, $"/html/body/div/div[2]/div[1]/table/thead/tr[1]/th[2]").Value;
+
                 if (mesTabelaEscolha == mesAno)
                 {
+                    Console.WriteLine("Mês Encontrado");
                     mesContrado = true;
                     SelecionarDiaCalendario(dia);
                 }
                 else
-                    GetValue(TypeElement.Xpath, $"/html/body/div/div[3]/div[1]/table/thead/tr[1]/th[3]").element.Click();
+                {
+                    Console.WriteLine("Data Não Encontrado");
+                    GetValue(TypeElement.Xpath, $"/html/body/div").element.FindElement(By.ClassName("next")).Click();
+                    Task.Delay(2000).Wait();
+                    Console.WriteLine("Proxima Data Calendario");
+                }
             }
         }
 

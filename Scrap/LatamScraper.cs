@@ -4,6 +4,7 @@ using EasyAutomationFramework;
 using OpenQA.Selenium;
 using EasyAutomationFramework.Model;
 using OpenQA.Selenium.Chrome;
+using java.text;
 
 namespace WebScraping
 {
@@ -28,30 +29,38 @@ namespace WebScraping
         }
 
 
-        public bool MontarPesquisa(string link)
+        public bool MontarPesquisa(string link, string origem, string destino, string data)
         {
-            string dia = "15";
-            string mesAno = "Novembro 2023";
-            string origem = "SAO";
-            string destino = "Natal";
+            DateTime dateTime = DateTime.ParseExact(data, "dd/MM/yyyy", System.Globalization.CultureInfo.GetCultureInfo("pt-BR"));
+            if (dateTime < DateTime.Now)
+            {
+                Console.WriteLine("Pesquisa Iniciada");
+                return false;
+            }
+            else
+            {
 
-            InitBrowser(link);
-            Task.Delay(5000).Wait();
-            
-            Console.WriteLine("Pesquisa Iniciada");
+                string dia = data.Substring(0, 2);
+                string mesAno = $"{(Mes)Convert.ToInt32(data.Substring(3, 2))} {data.Substring(6, 4)}";
 
-            pesquisa.ConfigurarSomenteIda();
-            pesquisa.ConfigurarOrigem(origem);
-            pesquisa.ConfigurarDestino(destino);
-            pesquisa.ConfigurarData(dia, mesAno);
+                InitBrowser(link);
+                Task.Delay(5000).Wait();
 
-            Task.Delay(2000).Wait();
+                Console.WriteLine("Pesquisa Iniciada");
 
-            GetValue(TypeElement.Xpath, "/html/body/main/div/div[2]/div/div/div/div/div[2]").element
-                .FindElement(By.ClassName("btn-latam"))
-                .Click();
-            Console.WriteLine("Pesquisa Concluída");
-            return true;
+                pesquisa.ConfigurarSomenteIda();
+                pesquisa.ConfigurarOrigem(origem);
+                pesquisa.ConfigurarDestino(destino);
+                pesquisa.ConfigurarData(dia, mesAno);
+
+                Task.Delay(2000).Wait();
+
+                GetValue(TypeElement.Xpath, "/html/body/main/div/div[2]/div/div/div/div/div[2]").element
+                    .FindElement(By.ClassName("btn-latam"))
+                    .Click();
+                Console.WriteLine("Pesquisa Concluída");
+                return true;
+            }
         }
 
         public void MontarListagem()

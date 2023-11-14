@@ -11,7 +11,15 @@ var latam = new LatamScraper();
 
 //latam.MontarPesquisa();
 
-var pesquisou = latam.MontarPesquisa("https://latampass.latam.com/pt_br/passagens");
+Console.WriteLine("Digite Origem:");
+var origem = Console.ReadLine();
+Console.WriteLine("Digite Destino:");
+var destino = Console.ReadLine();
+
+Console.WriteLine("Digite Data (dd/mm/yyy):");
+var data = Console.ReadLine();
+
+var pesquisou = latam.MontarPesquisa("https://latampass.latam.com/pt_br/passagens", origem, destino, data);
 if (pesquisou)
     latam.MontarListagem();
 else
