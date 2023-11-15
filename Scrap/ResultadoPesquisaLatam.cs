@@ -7,6 +7,7 @@ using OpenQA.Selenium.Chrome;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -28,8 +29,6 @@ namespace WebScraping
             options.DebuggerAddress = "127.0.0.1:9100";
             driver = new ChromeDriver(options);
             Task.Delay(5000).Wait();
-            driver.Url = "https://latampass.latam.com/pt_br/passagens";
-
         }
 
         public ResultadoPesquisaLatam(IWebDriver _driver)
@@ -38,7 +37,7 @@ namespace WebScraping
         }
         public void MontarLista()
         {
-            
+
             var items = new List<DadosDeVoo>();
             for (int i = 0; i <= 11; i++)
             {
@@ -134,15 +133,24 @@ namespace WebScraping
 
         private void SalvarDados(IEnumerable<DadosDeVoo> items)
         {
-
+            string folderpath = @"C:\Users\dnova\.gitRepositories\Scrap\Scrap";
             var dados = new List<DataTables>()
                     {
                         new DataTables("tablets", Base.ConvertTo(items.ToList()))
                     };
 
-            var paramss = new ParamsDataTable("Dados", @"C:\Users\dnova\.gitRepositories\Scrap\Scrap", dados);
-
+            var paramss = new ParamsDataTable("Dados", folderpath, dados);
+            ProcessStartInfo startInfo = new ProcessStartInfo
+            {
+                Arguments = folderpath,
+                FileName = "explorer.exe"
+            };
             Base.GenerateExcel(paramss);
+
+
+            Process.Start(startInfo);
+
+            
 
         }
     }

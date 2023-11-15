@@ -56,7 +56,9 @@ namespace WebScraping
                 else
                 {
                     Console.WriteLine("Data Não Encontrado");
-                    GetValue(TypeElement.Xpath, $"/html/body/div").element.FindElement(By.ClassName("next")).Click();
+                    var next = GetValue(TypeElement.Xpath, $"/html/body/div/div[2]/div[1]/table/thead/tr[1]/th[3]").element;
+                    Task.Delay(2000).Wait();
+                    next.Click();
                     Task.Delay(2000).Wait();
                     Console.WriteLine("Proxima Data Calendario");
                 }
@@ -71,10 +73,10 @@ namespace WebScraping
                 if (diaEncontrado) break;
                 for (int coluna = 1; coluna < 8; coluna++)
                 {
-                    var dataCalendario = GetValue(TypeElement.Xpath, $"/html/body/div[1]/div[2]/div[1]/table/tbody/tr[{linha}]/td[{coluna}]").Value;
-                    if (diaPesquisa == dataCalendario)
+                    var dataCalendario = GetValue(TypeElement.Xpath, $"/html/body/div/div[2]/div[1]/table/tbody/tr[{linha}]/td[{coluna}]").element;
+                    if (diaPesquisa == dataCalendario.Text)
                     {
-                        GetValue(TypeElement.Xpath, $"/html/body/div[1]/div[2]/div[1]/table/tbody/tr[{linha}]/td[{coluna}]").element.Click();
+                        dataCalendario.Click();
                         diaEncontrado = true;
                         break;
                     }

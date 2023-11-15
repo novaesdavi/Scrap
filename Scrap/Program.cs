@@ -1,15 +1,11 @@
 ﻿// See https://aka.ms/new-console-template for more information
 using EasyAutomationFramework;
 using EasyAutomationFramework.Model;
+using System.Diagnostics;
 using WebScraping;
 
-//var web = new WebScraper();
-
-//web.BuildData("https://webscraper.io/test-sites/e-commerce/allinone/computers/tablets");
 
 var latam = new LatamScraper();
-
-//latam.MontarPesquisa();
 
 Console.WriteLine("Digite Origem:");
 var origem = Console.ReadLine();

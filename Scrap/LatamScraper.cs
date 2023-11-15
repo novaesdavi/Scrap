@@ -5,6 +5,8 @@ using OpenQA.Selenium;
 using EasyAutomationFramework.Model;
 using OpenQA.Selenium.Chrome;
 using java.text;
+using System.Diagnostics;
+using System.Reflection;
 
 namespace WebScraping
 {
@@ -14,13 +16,28 @@ namespace WebScraping
         ResultadoPesquisaLatam resultadoPesquisa = null;
         public LatamScraper()
         {
-            
+
         }
         private void InitBrowser(string link)
         {
-            var options = new ChromeOptions();
-            options.DebuggerAddress = "127.0.0.1:9100";
-            driver = new ChromeDriver(options);
+
+            try
+            {
+                var options = new ChromeOptions();
+                options.DebuggerAddress = "127.0.0.1:9100";
+                driver = new ChromeDriver(options);
+            }
+            catch (Exception ex)
+            {
+
+                Process.Start("C:\\Users\\dnova\\.gitRepositories\\Scrap\\Scrap\\InitChromeOnDebugMode.bat");
+                Task.Delay(5000).Wait();
+                var options = new ChromeOptions();
+                options.DebuggerAddress = "127.0.0.1:9100";
+                driver = new ChromeDriver(options);
+            }
+
+
             Task.Delay(5000).Wait();
             driver.Url = link;
 
@@ -39,9 +56,12 @@ namespace WebScraping
             }
             else
             {
-
+                string mesAno = null;
                 string dia = data.Substring(0, 2);
-                string mesAno = $"{(Mes)Convert.ToInt32(data.Substring(3, 2))} {data.Substring(6, 4)}";
+                if (data.Substring(3, 2) == "03")
+                    mesAno = $"Março {data.Substring(6, 4)}";
+                else
+                    mesAno = $"{(Mes)Convert.ToInt32(data.Substring(3, 2))} {data.Substring(6, 4)}";
 
                 InitBrowser(link);
                 Task.Delay(5000).Wait();
@@ -65,9 +85,6 @@ namespace WebScraping
 
         public void MontarListagem()
         {
-            //var teste = new ResultadoPesquisaLatam();
-            //teste.MontarLista();
-
             resultadoPesquisa.MontarLista();
         }
     }
